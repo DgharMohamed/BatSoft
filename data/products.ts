@@ -6,7 +6,7 @@ import type { ProductInput } from "@/lib/products/schema";
  * IMPORTANT — data provenance rules enforced across the site:
  * - Release fields are only written from real, verified GitHub Releases.
  *   BatPlayer's release fields come from the verified release
- *   batplayer-v0.1.0; other products still omit every release field and
+ *   batplayer-v0.1.1; other products still omit every release field and
  *   the UI renders honest "Not yet available" states for them.
  * - Descriptions, planned capabilities and FAQs below are initial brand copy
  *   for unreleased products; replace them with confirmed product information
@@ -27,7 +27,7 @@ export const products: ProductInput[] = [
       "A modern media player for Windows that starts fast and stays out of the way.",
     description: [
       "BatPlayer is BatSoft's first released application: a media player for Windows built around a simple goal — playback that starts fast, stays out of the way, and keeps the essentials within reach.",
-      "The first release, v0.1.0 (October 24, 2026), is available now. The download button on this page links to the official release asset on GitHub, and the release page lists the notes plus the SHA-256 checksum published for verified downloads.",
+      "The current release, v0.1.1 (October 24, 2026), is available now. The download button on this page links to the official release asset on GitHub, and the release page lists the notes plus the SHA-256 checksum published for verified downloads.",
     ],
     privacyFocus: [
       "BatPlayer plays media files that already live on your device. Playback stays between you and the app: no account system, no sign-in and no usage statistics.",
@@ -36,21 +36,34 @@ export const products: ProductInput[] = [
     category: "Media",
     status: "available",
     featured: true,
-    // Verified source: GitHub Release batplayer-v0.1.0 (published 2026-10-24).
+    // Verified source: GitHub Release batplayer-v0.1.1 (published 2026-10-24).
     platforms: ["Windows 10 or later (64-bit)"],
     requirements: [
       { label: "Operating system", value: "Windows 10 or later (64-bit)" },
       { label: "Runtime", value: "WebView2 runtime (installed automatically by the setup when missing)" },
     ],
-    latestVersion: "0.1.0",
+    latestVersion: "0.1.1",
     releaseDate: "2026-10-24",
-    releasePageUrl: "https://github.com/DgharMohamed/BatSoft/releases/tag/batplayer-v0.1.0",
-    downloadUrl: "https://github.com/DgharMohamed/BatSoft/releases/download/batplayer-v0.1.0/BatPlayer.exe",
+    releasePageUrl: "https://github.com/DgharMohamed/BatSoft/releases/tag/batplayer-v0.1.1",
+    downloadUrl: "https://github.com/DgharMohamed/BatSoft/releases/download/batplayer-v0.1.1/BatPlayer.exe",
     installerFilename: "BatPlayer.exe",
-    fileSize: "34.7 MB",
+    fileSize: "34.8 MB",
     architecture: "x64 (64-bit)",
-    sha256: "5acbfa4590d8e8682f7c55dafe303fbce43b1acd79c56ad347410a6c45842d14",
+    sha256: "f2270bbf2448574bce80a844cbce110732ff766518d00d5a147c53d8de1c39dc",
     changelog: [
+      {
+        version: "0.1.1",
+        date: "2026-10-24",
+        summary: "Windows \"Open with\" integration: BatPlayer plays the file the system opens it with.",
+        added: [
+          "BatPlayer is registered with Windows \"Open with\" for the video and audio formats it plays.",
+          "Files opened through \"Open with\" (or double-click association) load and play instead of opening the player empty.",
+          "Opening another file while BatPlayer runs now loads it in the running window instead of launching a second player.",
+        ],
+        fixes: [
+          "The context menu's mini player entry no longer fails when activated.",
+        ],
+      },
       {
         version: "0.1.0",
         date: "2026-10-24",
@@ -86,7 +99,7 @@ export const products: ProductInput[] = [
       {
         question: "Is BatPlayer released?",
         answer:
-          "Yes. The first official build, v0.1.0, was published on October 24, 2026. The download button on this page links to the official release asset, and the release page lists the notes and the published SHA-256 checksum.",
+          "Yes. The first official build shipped on October 24, 2026, and the current release (v0.1.1) adds Windows \"Open with\" integration. The download button on this page links to the official release asset, and the release page lists the notes and the published SHA-256 checksum.",
       },
       {
         question: "How much will BatPlayer cost?",
@@ -99,9 +112,9 @@ export const products: ProductInput[] = [
           "BatPlayer requires Windows 10 or later on a 64-bit system. The installer has been installed and tested on Windows 11; support for older Windows builds continues to be verified.",
       },
     ],
-    seoTitle: "BatPlayer — Media player for Windows (v0.1.0)",
+    seoTitle: "BatPlayer — Media player for Windows (v0.1.1)",
     seoDescription:
-      "BatPlayer is BatSoft's media player for Windows. The first release, v0.1.0, is available to download as an official installer with a published checksum.",
+      "BatPlayer is BatSoft's media player for Windows. The current release, v0.1.1, is available to download as an official installer with a published checksum.",
   },
   {
     id: "battools",
