@@ -19,6 +19,7 @@ import {
   getRelatedProducts,
   productGlyph,
 } from "@/lib/products";
+import { site } from "@/lib/site";
 import { History, PackageSearch } from "lucide-react";
 
 /**
@@ -73,8 +74,40 @@ export default async function ProductPage({
   const featureTitle = released ? "Features" : "Planned capabilities";
   const hasChangelog = product.changelog.length > 0;
 
+  /**
+   * Minimal, honest SoftwareApplication schema: no offers (pricing is not
+   * finalized), no ratings (nothing released), nothing the catalog does not
+   * back.
+   */
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: product.name,
+    applicationCategory: product.category,
+    operatingSystem:
+      released ? "Windows"
+      : product.status === "in-development"
+        ? "Windows (in active development)"
+        : "Windows (planned)",
+    description: product.shortDescription,
+    ...(released && product.releaseDate
+      ? { softwareVersion: product.latestVersion, dateReleased: product.releaseDate }
+      : {}),
+    url: `${site.url}/apps/${product.slug}`,
+    publisher: {
+      "@type": "Organization",
+      name: site.name,
+      url: site.url,
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {/* Product hero */}
       <section className="border-b border-line">
         <Container className="py-12 sm:py-16">
