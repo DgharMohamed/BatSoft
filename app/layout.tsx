@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/layout/Footer";
@@ -73,6 +74,9 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        {/* Speed Insights reports Core Web Vitals from production Vercel
+            deployments only; locally it is inert. Disclosed in /privacy. */}
+        <SpeedInsights />
       </body>
     </html>
   );
