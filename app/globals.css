@@ -1,0 +1,275 @@
+@import "tailwindcss";
+
+/*
+ * Two themes, one token system.
+ *
+ * Raw values live on :root (dark — the default) and are overridden under
+ * html[data-theme="light"]. `@theme inline` maps them to Tailwind utilities
+ * (bg-background, text-muted, border-line…), so every component inherits the
+ * active theme without per-component conditionals.
+ *
+ * Light palette: warm gray page, black text, yellow reserved for fills
+ * (buttons, highlights) and a deep gold `accent` for text/icons so the brand
+ * colour stays legible on gray.
+ */
+@theme inline {
+  --color-background: var(--page);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-contrast: var(--brand-contrast);
+  --color-accent: var(--accent);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-success: var(--success);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "Cascadia Mono", monospace;
+}
+
+:root {
+  color-scheme: dark;
+
+  --page: #121316;
+  --surface: #17181c;
+  --surface-2: #1d1e24;
+  --foreground: #f2f1ee;
+  --muted: rgba(242, 241, 238, 0.6);
+  --line: rgba(242, 241, 238, 0.14);
+  --line-strong: rgba(242, 241, 238, 0.4);
+  --brand: #ffd51b;
+  --brand-soft: #ffe45c;
+  --brand-contrast: #121316;
+  --accent: #ffd51b;
+  --success: #34d399;
+  --grid-line: rgba(255, 255, 255, 0.03);
+  --focus-ring: #ffd51b;
+  --shadow-elevated: 0 30px 60px -28px rgba(0, 0, 0, 0.75);
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+
+  --page: #e5e4df;
+  --surface: #eeede9;
+  --surface-2: #f5f4f1;
+  --foreground: #121316;
+  --muted: rgba(18, 19, 22, 0.78);
+  --line: rgba(18, 19, 22, 0.16);
+  --line-strong: rgba(18, 19, 22, 0.42);
+  --brand: #ffd51b;
+  --brand-soft: #ffe45c;
+  --brand-contrast: #121316;
+  --accent: #6b5200;
+  --success: #067a4e;
+  --grid-line: rgba(18, 19, 22, 0.055);
+  --focus-ring: #121316;
+  --shadow-elevated: 0 24px 48px -30px rgba(18, 19, 22, 0.45);
+}
+
+/*
+ * The BatSoft emblem PNG is supplied in brand gold only (no monochrome asset).
+ * On the light palette it is filtered to a near-black mark so it carries the
+ * same weight as the ink-toned type, while yellow stays reserved for fills.
+ * The opacity sits it just off pure black, blending to ~#121212 on the warm
+ * gray page — level with the #121316 foreground.
+ */
+html[data-theme="light"] .logo-mono {
+  filter: brightness(0);
+  opacity: 0.92;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--brand);
+  color: var(--brand-contrast);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Theme switching
+ *
+ * ThemeToggle picks one of two paths at runtime:
+ *   1. View Transitions API (Chromium, Safari 18+) — a circular reveal that
+ *      expands from the pointer, matching the transition-kit "circle-reveal"
+ *      style: the new theme is clipped to a growing circle centred on the
+ *      click point.
+ *   2. Fallback — every theme-aware property cross-fades in place.
+ *
+ * Both are inert on first paint: the boot script applies the stored theme
+ * before the first frame, and neither marker attribute is set then.
+ * ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Path 2 — in-place cross-fade. */
+  html[data-theme-transition] *,
+  html[data-theme-transition] *::before,
+  html[data-theme-transition] *::after {
+    transition-property: background-color, border-color, color, fill, stroke,
+      box-shadow, outline-color, text-decoration-color, filter, opacity;
+    transition-duration: 320ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  html[data-theme-transition] ::selection {
+    transition-property: background-color, color;
+    transition-duration: 320ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* Path 1 — circular reveal. The default cross-fade is removed and the new
+   snapshot is clipped to a circle that grows out of the toggle button. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 2147483646;
+  animation: theme-reveal var(--theme-duration, 1400ms)
+    var(--theme-easing, ease-in-out) both;
+}
+
+@keyframes theme-reveal {
+  from {
+    clip-path: circle(
+      0px at var(--theme-origin-x, 50%) var(--theme-origin-y, 0%)
+    );
+  }
+  to {
+    clip-path: circle(
+      var(--theme-radius, 150vmax) at var(--theme-origin-x, 50%)
+        var(--theme-origin-y, 0%)
+    );
+  }
+}
+
+/* While the reveal runs, the live DOM must not animate: the new snapshot is
+   captured on the first frame after the update, so an in-flight colour
+   transition would be baked into it. */
+html[data-theme-reveal] *,
+html[data-theme-reveal] *::before,
+html[data-theme-reveal] *::after {
+  transition: none !important;
+}
+
+/* Sun/moon cross-fade. Driven by CSS rather than React state so the icon is
+   already in its final position when the new snapshot is captured. */
+.theme-icon {
+  transition:
+    opacity 240ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-icon-sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.75);
+}
+
+.theme-icon-moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+html[data-theme="light"] .theme-icon-sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+html[data-theme="light"] .theme-icon-moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.75);
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex h-10 items-center justify-center gap-2 px-4 font-mono text-[11px] font-medium uppercase tracking-[0.14em] transition-colors duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-brand text-brand-contrast hover:bg-brand-soft;
+  }
+
+  .btn-secondary {
+    @apply border border-line bg-transparent text-foreground hover:border-line-strong hover:bg-surface-2;
+  }
+
+  .btn-sm {
+    @apply h-9 px-3.5 text-[10px];
+  }
+
+  /* Technical mono chip — labels, statuses, spec boxes */
+  .chip {
+    @apply inline-flex w-fit items-center gap-1.5 border border-line px-2 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.14em];
+  }
+}
+
+/* Hairline grid used behind card visuals */
+.bg-grid {
+  background-image: linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* Entrance reveal — pure CSS so content stays visible without JS */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: reveal-up 0.55s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* The reveal is decoration: drop it entirely for reduced motion. */
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
