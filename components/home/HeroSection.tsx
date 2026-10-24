@@ -8,7 +8,7 @@ import { Reveal } from "@/components/ui/Reveal";
 export function HeroSection() {
   return (
     <section id="collection" className="scroll-mt-24 border-b border-line">
-      <Container className="flex flex-col items-center py-24 text-center sm:py-32">
+      <Container className="flex flex-col items-center pb-24 pt-14 text-center sm:pb-32 sm:pt-20">
         <Reveal>
           <Image
             src="/batsoft-logo.png"
@@ -49,17 +49,17 @@ export function HeroSection() {
         <Reveal delay={0.32}>
           <p className="mt-12 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-2 font-mono text-[10px] tracking-[0.18em] text-muted/70 uppercase">
             <span className="inline-flex items-center gap-1.5">
-              <OsMark os="windows" className="size-3.5" />
+              <OsMark os="windows" className="size-4" />
               For Windows
             </span>
             <span aria-hidden="true">·</span>
             <span className="inline-flex items-center gap-1.5 text-muted/50">
-              <OsMark os="macos" className="size-3.5" />
+              <OsMark os="macos" className="size-4" />
               macOS soon
             </span>
             <span aria-hidden="true">·</span>
             <span className="inline-flex items-center gap-1.5 text-muted/50">
-              <OsMark os="linux" className="size-3.5" />
+              <OsMark os="linux" className="size-4" />
               Linux soon
             </span>
             <span aria-hidden="true">·</span>
