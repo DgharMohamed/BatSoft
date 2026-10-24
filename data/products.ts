@@ -4,9 +4,10 @@ import type { ProductInput } from "@/lib/products/schema";
  * BatSoft product catalog.
  *
  * IMPORTANT — data provenance rules enforced across the site:
- * - No version numbers, release dates, download URLs, file sizes or checksums
- *   are written here because none have been provided yet. Every release field
- *   is omitted and the UI renders honest "Not yet available" states.
+ * - Release fields are only written from real, verified GitHub Releases.
+ *   BatPlayer's release fields come from the verified release
+ *   batplayer-v0.1.0; other products still omit every release field and
+ *   the UI renders honest "Not yet available" states for them.
  * - Descriptions, planned capabilities and FAQs below are initial brand copy
  *   for unreleased products; replace them with confirmed product information
  *   as it becomes available.
@@ -23,18 +24,47 @@ export const products: ProductInput[] = [
     name: "BatPlayer",
     icon: "/batplayer-icon.png",
     shortDescription:
-      "A modern media player for Windows, currently in active development.",
+      "A modern media player for Windows that starts fast and stays out of the way.",
     description: [
-      "BatPlayer is BatSoft's first application: a media player for Windows built around a simple goal — playback that starts fast, stays out of the way, and keeps the essentials within reach.",
-      "BatPlayer is in active development. The information on this page describes the project's direction, not a shipped release. Version details, system requirements and download links will be published here as soon as the first release is finalized.",
+      "BatPlayer is BatSoft's first released application: a media player for Windows built around a simple goal — playback that starts fast, stays out of the way, and keeps the essentials within reach.",
+      "The first release, v0.1.0 (October 24, 2026), is available now. The download button on this page links to the official release asset on GitHub, and the release page lists the notes plus the SHA-256 checksum published for verified downloads.",
     ],
     privacyFocus: [
-      "BatPlayer is being built to play media files that already live on your device. Playback is intended to stay between you and the app: no account system, no sign-in and no usage statistics are part of the plan.",
-      "Library browsing is intended to read only the media you point the player at. Nothing is planned to run in the background, and nothing about your files or playback is planned to leave the machine.",
+      "BatPlayer plays media files that already live on your device. Playback stays between you and the app: no account system, no sign-in and no usage statistics.",
+      "Library browsing reads only the media you point the player at. Nothing runs in the background, and nothing about your files or playback leaves the machine.",
     ],
     category: "Media",
-    status: "in-development",
+    status: "available",
     featured: true,
+    // Verified source: GitHub Release batplayer-v0.1.0 (published 2026-10-24).
+    platforms: ["Windows 10 or later (64-bit)"],
+    requirements: [
+      { label: "Operating system", value: "Windows 10 or later (64-bit)" },
+      { label: "Runtime", value: "WebView2 runtime (installed automatically by the setup when missing)" },
+    ],
+    latestVersion: "0.1.0",
+    releaseDate: "2026-10-24",
+    releasePageUrl: "https://github.com/DgharMohamed/BatSoft/releases/tag/batplayer-v0.1.0",
+    downloadUrl: "https://github.com/DgharMohamed/BatSoft/releases/download/batplayer-v0.1.0/BatPlayer.exe",
+    installerFilename: "BatPlayer.exe",
+    fileSize: "34.7 MB",
+    architecture: "x64 (64-bit)",
+    sha256: "5acbfa4590d8e8682f7c55dafe303fbce43b1acd79c56ad347410a6c45842d14",
+    changelog: [
+      {
+        version: "0.1.0",
+        date: "2026-10-24",
+        summary: "First public release of BatPlayer for Windows.",
+        added: [
+          "Windows installer with a custom dark setup experience (English and Arabic).",
+          "Playback for a wide range of video and audio formats via libmpv.",
+          "Playlist with queue, shuffle and loop, folder queuing, drag-and-drop and Open Recent.",
+          "Playback speed control, frame stepping, snapshots, fullscreen and a compact mini player.",
+          "Audio track and subtitle switching.",
+          "Resume playback from the last position of recently opened files.",
+        ],
+      },
+    ],
     features: [
       {
         title: "Built for Windows",
@@ -54,24 +84,24 @@ export const products: ProductInput[] = [
     ],
     faq: [
       {
-        question: "When will BatPlayer be released?",
+        question: "Is BatPlayer released?",
         answer:
-          "BatPlayer is in active development and no release date has been announced yet. This page and the release history will be updated as soon as an official build is published.",
+          "Yes. The first official build, v0.1.0, was published on October 24, 2026. The download button on this page links to the official release asset, and the release page lists the notes and the published SHA-256 checksum.",
       },
       {
         question: "How much will BatPlayer cost?",
         answer:
-          "Licensing and pricing have not been finalized. Any decision will be announced on this page before the first release.",
+          "Licensing and pricing have not been finalized. The current release is available as a direct download from this page, and any future decision will be announced here first.",
       },
       {
-        question: "Which Windows versions will be supported?",
+        question: "Which Windows versions does BatPlayer support?",
         answer:
-          "System requirements will be published alongside the first release, once they have been properly tested. Until then, no compatibility claims are made.",
+          "BatPlayer requires Windows 10 or later on a 64-bit system. The installer has been installed and tested on Windows 11; support for older Windows builds continues to be verified.",
       },
     ],
-    seoTitle: "BatPlayer — Media player for Windows (in development)",
+    seoTitle: "BatPlayer — Media player for Windows (v0.1.0)",
     seoDescription:
-      "BatPlayer is BatSoft's media player for Windows, currently in active development. Follow the project for release details, requirements and downloads.",
+      "BatPlayer is BatSoft's media player for Windows. The first release, v0.1.0, is available to download as an official installer with a published checksum.",
   },
   {
     id: "battools",
