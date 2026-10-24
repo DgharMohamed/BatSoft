@@ -19,9 +19,9 @@ one token system.
 
 </div>
 
-> **About the repo name.** The repository is named `BatPlayer_Website`
-> (the pack started with its first app), but it hosts the **entire** BatSoft
-> website and all three members of the pack.
+> **About the repo name.** The repository was previously named
+> `BatPlayer_Website` (the pack started with its first app); it now lives as
+> **`BatSoft`** and hosts the entire website and all three pack members.
 
 ---
 
@@ -77,7 +77,7 @@ separately, next to each product.
 Requires Node 20+.
 
 ```bash
-git clone https://github.com/DgharMohamed/BatPlayer_Website.git
+git clone https://github.com/DgharMohamed/BatSoft.git
 cd BatPlayer_Website
 npm install
 npm run dev        # http://localhost:3000
