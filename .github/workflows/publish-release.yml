@@ -1,0 +1,101 @@
+name: Publish release assets
+
+# Contract (see Releases/README.md): a push to main that adds/changes
+# `Releases/<App>.exe` together with its `Releases/<App>.json` metadata
+# (written by the app's release script) publishes a GitHub Release:
+# tag `<app>-v<version>` (lowercased), title `<App> v<version>`, the exe as
+# the asset, and the file's SHA-256 in the notes. Releasing the same version
+# twice fails on purpose - bump the app version, then rerun its release script.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Releases/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-releases
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Collect release executables changed in this push
+        id: changed
+        run: |
+          set -euo pipefail
+          before="${{ github.event.before }}"
+          if [ "$before" = "0000000000000000000000000000000000000000" ]; then
+            exes="$(git ls-tree -r --name-only HEAD -- Releases/ | grep -E '\.exe$' || true)"
+          else
+            exes="$(git diff --name-only "$before" "${{ github.sha }}" -- Releases/ | grep -E '\.exe$' || true)"
+          fi
+          {
+            echo "exes<<EOF"
+            echo "$exes"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Verify and publish each changed app
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          exes="${{ steps.changed.outputs.exes }}"
+          if [ -z "$exes" ]; then
+            echo "No release executables changed in this push - nothing to publish."
+            exit 0
+          fi
+          while IFS= read -r exe; do
+            [ -n "$exe" ] || continue
+            app="$(basename "$exe" .exe)"
+            meta="Releases/${app}.json"
+            [ -f "$meta" ] || { echo "::error file=$exe::$meta must be committed in the same push"; exit 1; }
+
+            version="$(jq -r '.version // empty' "$meta")"
+            expected="$(jq -r '.sha256 // empty' "$meta")"
+            [ -n "$version" ] || { echo "::error file=$meta::missing version"; exit 1; }
+            [ -n "$expected" ] || { echo "::error file=$meta::missing sha256"; exit 1; }
+
+            actual="$(sha256sum "$exe" | cut -d' ' -f1)"
+            if [ "$actual" != "$expected" ]; then
+              echo "::error file=$exe::SHA-256 mismatch (metadata $expected, file $actual)"
+              exit 1
+            fi
+
+            tag="$(echo "$app" | tr '[:upper:]' '[:lower:]')-v$version"
+            if git rev-parse -q --verify "refs/tags/$tag" >/dev/null 2>&1; then
+              echo "::error::$tag already exists - bump the app version, then rerun its release script"
+              exit 1
+            fi
+
+            size="$(stat -c%s "$exe")"
+            notes="$(mktemp)"
+            {
+              echo "Windows installer, version $version."
+              echo ""
+              echo "- Asset: \`$app.exe\`"
+              echo "- Size: $size bytes"
+              echo "- SHA-256: \`$actual\`"
+              echo ""
+              echo "Verify the download in PowerShell:"
+              echo "\`Get-FileHash .\\$app.exe -Algorithm SHA256\`"
+            } > "$notes"
+
+            echo "publishing $tag (asset $(basename "$exe"))..."
+            gh release create "$tag" \
+              --repo "${{ github.repository }}" \
+              --target "${{ github.sha }}" \
+              --title "$app v$version" \
+              --notes-file "$notes" \
+              "$exe"
+            rm -f "$notes"
+          done <<< "$exes"
