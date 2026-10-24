@@ -10,7 +10,7 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "Privacy for the BatSoft website: no accounts, no forms, no tracking cookies and no advertising — plus an explicit note on the aggregate performance measurement used on Vercel deployments. Each BatSoft application carries its own separate privacy policy.",
+    "Privacy for the BatSoft website: no accounts, no forms, no tracking cookies and no advertising — plus explicit notes on the aggregate performance and visit measurement used on Vercel deployments. Each BatSoft application carries its own separate privacy policy.",
   alternates: {
     canonical: "/privacy",
   },
@@ -44,7 +44,7 @@ export default function PrivacyPage() {
     {
       heading: "The short version",
       paragraphs: [
-        "This website has no accounts, no forms, no advertising, no tracking cookies and no cross-site tracking. BatSoft does not collect, share or sell personal information through this site, and nothing here asks you to identify yourself.",
+        "This website has no accounts, no forms, no advertising, no tracking cookies and no cross-site tracking. BatSoft does not collect, share or sell personal information through this site, and nothing here asks you to identify yourself. The only measurement it runs, disclosed in full below, is aggregate page-performance and visit data on Vercel deployments.",
       ],
     },
     {
@@ -59,6 +59,7 @@ export default function PrivacyPage() {
       paragraphs: [
         "The site loads no advertising, no social widgets and no cross-site tracking of any kind, and serves all of its assets — including fonts — from its own domain. Nothing here builds a profile of you.",
         "On production deployments hosted on Vercel, the site measures aggregate page performance with Vercel Speed Insights: Core Web Vitals (timing values), the page path and generic browser, device and connection characteristics. It sets no cookies and stores nothing in your browser, and it cannot identify who you are — its only purpose is showing whether the pack's pages are fast. Vercel handles the collected data as the platform provider under its own privacy policy.",
+        "On the same Vercel deployments, the site counts visits with Vercel Web Analytics: pages viewed, the referrer you came from, and generic browser, device and country characteristics derived from the request. It is cookie-free, stores nothing in your browser, does not use persistent identifiers, and IP addresses are used only to derive aggregate country-level data rather than stored — nothing can be tied back to the person viewing the page. Vercel handles these counts as the platform provider under its own privacy policy.",
       ],
     },
     {
