@@ -27,11 +27,11 @@ one token system.
 
 ## The pack
 
-| №  | Application  | Category   | Status          | Product page          | Privacy policy             |
-| --- | ------------ | ---------- | --------------- | --------------------- | -------------------------- |
-| 01  | BatPlayer    | Media      | In development  | [`/apps/batplayer`](/apps/batplayer)    | [`/apps/batplayer/privacy`](/apps/batplayer/privacy)    |
-| 02  | BatTools     | Utilities  | Coming soon     | [`/apps/battools`](/apps/battools)      | [`/apps/battools/privacy`](/apps/battools/privacy)      |
-| 03  | BatConvert   | Conversion | Coming soon     | [`/apps/batconvert`](/apps/batconvert)  | [`/apps/batconvert/privacy`](/apps/batconvert/privacy)  |
+| №  | Application  | Category   | Status          | Product page          | Legal (privacy · terms)                |
+| --- | ------------ | ---------- | --------------- | --------------------- | -------------------------------------- |
+| 01  | BatPlayer    | Media      | In development  | [`/apps/batplayer`](/apps/batplayer)    | [`privacy`](/apps/batplayer/privacy) · [`terms`](/apps/batplayer/terms)      |
+| 02  | BatTools     | Utilities  | Coming soon     | [`/apps/battools`](/apps/battools)      | [`privacy`](/apps/battools/privacy) · [`terms`](/apps/battools/terms)        |
+| 03  | BatConvert   | Conversion | Coming soon     | [`/apps/batconvert`](/apps/batconvert)  | [`privacy`](/apps/batconvert/privacy) · [`terms`](/apps/batconvert/terms)    |
 
 The website itself carries its own site-level policy at
 [`/privacy`](/privacy) — application-level data handling is documented
@@ -67,8 +67,9 @@ separately, next to each product.
   sections — yellow `#FFD51B` as the single brand accent, reserved for fills;
   on light palettes the emblem remaps to ink via a theme-scoped filter.
 - **Privacy as structure, not an afterthought.** A shared renderer builds
-  every policy page with identical structure; per-app copy lives in the
-  catalog (`privacyFocus`) like all other product content.
+  every legal page — privacy policies and terms of use — with identical
+  structure; per-app copy lives in the catalog (`privacyFocus`) like all
+  other product content.
 - **SEO shipped.** `sitemap.xml`, `robots.txt` and a generated Open Graph
   image (which inlines the brand crest) — all App Router metadata routes.
 
@@ -112,7 +113,8 @@ BatPack/
 │  │  └─ [slug]/
 │  │     ├─ page.tsx         # /apps/[slug] — product page
 │  │     ├─ changelog/       # /apps/[slug]/changelog — release history
-│  │     └─ privacy/         # /apps/[slug]/privacy — application policy
+│  │     ├─ privacy/         # /apps/[slug]/privacy — application policy
+│  │     └─ terms/           # /apps/[slug]/terms — application terms of use
 │  ├─ about/ · support/      # Brand story · troubleshooting guides
 │  └─ sitemap.ts · robots.ts · opengraph-image.tsx · not-found.tsx
 ├─ components/

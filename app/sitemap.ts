@@ -33,6 +33,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.4,
         lastModified,
       },
+      {
+        url: `${site.url}/apps/${product.slug}/terms`,
+        changeFrequency: "monthly" as const,
+        priority: 0.4,
+        lastModified,
+      },
     ],
   );
 

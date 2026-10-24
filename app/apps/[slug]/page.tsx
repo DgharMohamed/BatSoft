@@ -123,6 +123,9 @@ export default async function ProductPage({
                 <Link href={`/apps/${product.slug}/privacy`} className="btn btn-secondary">
                   Privacy Policy
                 </Link>
+                <Link href={`/apps/${product.slug}/terms`} className="btn btn-secondary">
+                  Terms of Use
+                </Link>
               </div>
 
               <p className="mt-6 text-sm text-muted">
