@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { OsMark } from "@/components/ui/OsMark";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function HeroSection() {
@@ -46,8 +47,23 @@ export function HeroSection() {
         </Reveal>
 
         <Reveal delay={0.32}>
-          <p className="mt-12 font-mono text-[10px] tracking-[0.18em] text-muted/70 uppercase">
-            For Windows · Official releases only
+          <p className="mt-12 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-2 font-mono text-[10px] tracking-[0.18em] text-muted/70 uppercase">
+            <span className="inline-flex items-center gap-1.5">
+              <OsMark os="windows" className="size-3.5" />
+              For Windows
+            </span>
+            <span aria-hidden="true">·</span>
+            <span className="inline-flex items-center gap-1.5 text-muted/50">
+              <OsMark os="macos" className="size-3.5" />
+              macOS soon
+            </span>
+            <span aria-hidden="true">·</span>
+            <span className="inline-flex items-center gap-1.5 text-muted/50">
+              <OsMark os="linux" className="size-3.5" />
+              Linux soon
+            </span>
+            <span aria-hidden="true">·</span>
+            <span>Official releases only</span>
           </p>
         </Reveal>
       </Container>
